@@ -1,3 +1,5 @@
+import { setProperty } from "./properties";
+
 export function apply(el, childrenDiff) {
   const children = Array.from(el.childNodes);
 
