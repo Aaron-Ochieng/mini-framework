@@ -1,39 +1,10 @@
 import { diffList } from "./diff";
 import { apply } from "./Dom";
 
-root
-
-    Type: HTMLElement
-
-    Purpose: The real DOM element your app renders into.
-
-    Example: document.querySelector('#app')
-
-    SMVC will mount and manage the virtual DOM inside this element.
-
-initialState
-
-    Type: Object
-
-    Purpose: The starting state of your application — your model.
-
-    Defines initial values like todos, visibility filter, counters, etc.
-
-update
-
-    Type: (state, msg, enqueue?) => newState
-
-    Purpose: A pure function that takes the current state and a message, then returns a new state.
-
-    It's how you handle events and change state in response to user input.
-
-view
-
-    Type: (state) => VirtualNode[]
-
-    Purpose: A function that takes the current state and returns the virtual DOM tree.
-
-    This is what your UI "looks like" given a state — declarative rendering.
+// root The real DOM element your app renders into. the div we target to inject code with
+// initialState (object) Defines initial values like todos, visibility filter, counters, etc The starting state of your application
+// update Type: (state, msg, enqueue?) => newState == A pure function that takes the current state and a message, then returns a new state.
+// view Type: (state) => VirtualNode[] A function that takes the current state and returns the virtual DOM tree.
 
 function init(root, initialState, update, view) {
   let state = initialState; // client application state
