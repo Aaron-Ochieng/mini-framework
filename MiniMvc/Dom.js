@@ -1,4 +1,5 @@
 import { setProperty } from "./properties";
+import { setListener, eventName } from "./event";
 
 export function apply(el, childrenDiff) {
   const children = Array.from(el.childNodes);
