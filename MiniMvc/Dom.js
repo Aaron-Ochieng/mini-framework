@@ -58,7 +58,7 @@ function modify(el, diff) {
   apply(el, diff.children);
 }
 
-export function create(vnode) {
+export function create(vnode, enqueue) {
   // Create a text node
   if (vnode.text !== undefined) {
     const el = document.createTextNode(vnode.text);
@@ -68,7 +68,7 @@ export function create(vnode) {
   // Create the DOM element with the correct tag and
   // already add our object of listeners to it.
   const el = document.createElement(vnode.tag);
-  el._ui = { listeners: {} };
+  el._ui = { listeners: {}, enqueue };
 
   for (const prop in vnode.properties) {
     const event = eventName(prop);
@@ -81,7 +81,7 @@ export function create(vnode) {
 
   // Recursively create all the children and append one by one.
   for (const childVNode of vnode.children) {
-    const child = create(childVNode);
+    const child = create(enqueue, childVNode);
     el.appendChild(child);
   }
 
