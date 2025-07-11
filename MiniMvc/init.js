@@ -18,7 +18,7 @@ function init(root, initialState, update, view) {
   // draws the current state
   function draw() {
     let newNodes = view(state);
-    apply(root, diffList(nodes, newNodes));
+    apply(root, enqueue, diffList(nodes, newNodes));
     nodes = newNodes;
   }
 
