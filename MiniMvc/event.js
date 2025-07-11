@@ -3,7 +3,11 @@
 function listener(event) {
   const el = event.currentTarget;
   const handler = el._ui.listeners[event.type];
-  handler(event);
+  const enqueue = el_ui.enqueue;
+  const msg = handler(event);
+  if (msg !== undefined) {
+    enqueue(msg);
+  }
 }
 
 // function to set up the vent listerner for the browser to listen
