@@ -1,7 +1,7 @@
 import { setProperty } from "./properties";
 import { setListener, eventName } from "./event";
 
-export function apply(el, childrenDiff) {
+export function apply(el, enqueue, childrenDiff) {
   const children = Array.from(el.childNodes);
 
   childrenDiff.forEach((diff, i) => {
@@ -12,17 +12,17 @@ export function apply(el, childrenDiff) {
         break;
 
       case "modify":
-        modify(children[i], diff.modify);
+        modify(children[i], enqueue, diff.modify);
         break;
 
       case "create": {
-        const child = create(diff.create);
+        const child = create(enqueue, diff.create);
         el.appendChild(child);
         break;
       }
 
       case "replace": {
-        const child = create(diff.replace);
+        const child = create(enqueue, diff.replace);
         children[i].replaceWith(child);
         break;
       }
@@ -33,7 +33,7 @@ export function apply(el, childrenDiff) {
   });
 }
 
-function modify(el, diff) {
+function modify(el, enqueue, diff) {
   // Remove props
   for (const prop of diff.remove) {
     const event = eventName(prop);
@@ -55,7 +55,7 @@ function modify(el, diff) {
   }
 
   // Deal with the children
-  apply(el, diff.children);
+  apply(el, enqueue, diff.children);
 }
 
 export function create(vnode, enqueue) {
