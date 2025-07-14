@@ -1,9 +1,8 @@
-import { setProperty } from "./properties";
-import { setListener, eventName } from "./event";
+import { setProperty } from "./properties.js";
+import { setListener, eventName } from "./event.js";
 
 export function apply(el, enqueue, childrenDiff) {
   const children = Array.from(el.childNodes);
-
   childrenDiff.forEach((diff, i) => {
     const action = Object.keys(diff)[0];
     switch (action) {
@@ -58,7 +57,7 @@ function modify(el, enqueue, diff) {
   apply(el, enqueue, diff.children);
 }
 
-export function create(vnode, enqueue) {
+export function create(enqueue, vnode) {
   // Create a text node
   if (vnode.text !== undefined) {
     const el = document.createTextNode(vnode.text);
@@ -80,9 +79,11 @@ export function create(vnode, enqueue) {
   }
 
   // Recursively create all the children and append one by one.
-  for (const childVNode of vnode.children) {
-    const child = create(enqueue, childVNode);
-    el.appendChild(child);
+  if (vnode.children !== undefined) {
+    for (const childVNode of vnode.children) {
+      const child = create(enqueue, childVNode);
+      el.appendChild(child);
+    }
   }
 
   return el;
