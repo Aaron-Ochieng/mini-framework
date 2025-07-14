@@ -1,5 +1,5 @@
-import { diffList } from "./diff";
-import { apply } from "./Dom";
+import { diffList } from "./diff.js";
+import { apply } from "./Dom.js";
 
 // root The real DOM element your app renders into. the div we target to inject code with
 // initialState (object) Defines initial values like todos, visibility filter, counters, etc The starting state of your application
