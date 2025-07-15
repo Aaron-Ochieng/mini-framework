@@ -69,9 +69,9 @@ export function create(enqueue, vnode) {
   const el = document.createElement(vnode.tag);
   el._ui = { listeners: {}, enqueue };
 
-  for (const prop in vnode.properties) {
+  for (const prop in vnode.attr) {
     const event = eventName(prop);
-    const value = vnode.properties[prop];
+    const value = vnode.attr[prop];
     // If it's an event set it otherwise set the value as a property.
     event !== null
       ? setListener(el, event, value)
