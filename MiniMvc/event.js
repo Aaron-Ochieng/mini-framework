@@ -3,7 +3,7 @@
 function listener(event) {
   const el = event.currentTarget;
   const handler = el._ui.listeners[event.type];
-  const enqueue = el_ui.enqueue;
+  const enqueue = el._ui.enqueue;
   const msg = handler(event);
   if (msg !== undefined) {
     enqueue(msg);
