@@ -1,6 +1,7 @@
 import createElement from "./createElement.js";
+import { eventName } from "./event.js";
 
-export default (htmlString) => {
+export default (htmlString, handlers) => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlString, "text/html");
   const rootElement = doc.body.firstChild; // Get the first element inside the body
@@ -9,20 +10,30 @@ export default (htmlString) => {
     return null; // Handle empty HTML string or no elements
   }
 
-  function convertNode(node) {
+  function convertNode(node, handlers) {
     // Handle element nodes
     if (node.nodeType === Node.ELEMENT_NODE) {
       const tagName = node.tagName.toLowerCase();
-      const attrs = {};
-      for (const attr of node.attributes) {
-        attrs[attr.name] = attr.value;
+      const attr = {};
+      for (const attribute of node.attributes) {
+        const name = attribute.name;
+        let value = attribute.value;
+
+        // Check if attribute is an event (onClick, onInput, etc)
+        const event = eventName(name);
+        // If it's an event, and handlers[value] is a function, replace string with function
+        if (event && typeof handlers[value] === "function") {
+          value = handlers[value];
+        }
+
+        attr[name] = value;
       }
 
       const children = Array.from(node.childNodes)
-        .map(convertNode)
-        .filter((child) => child !== null); // Filter out nulls from comments/empty text nodes
+        .map((child) => convertNode(child, handlers))
+        .filter((child) => child !== null);
 
-      return createElement(tagName, { attrs, children });
+      return createElement(tagName, { attr, children });
     }
 
     // Handle text nodes
@@ -35,5 +46,5 @@ export default (htmlString) => {
     return null;
   }
 
-  return convertNode(rootElement);
+  return convertNode(rootElement, handlers);
 };
