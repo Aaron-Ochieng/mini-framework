@@ -207,3 +207,39 @@ const handlers = {
   handleClearCompleted: () => ({ type: CLEAR_COMPLETED })
 };
 
+// View function - renders the current state
+function view(state) {
+  const filteredTodos = getFilteredTodos(state.todos, state.filter);
+  const activeTodoCount = getActiveTodoCount(state.todos);
+  const completedTodoCount = getCompletedTodoCount(state.todos);
+  const allCompleted = state.todos.length > 0 && activeTodoCount === 0;
+
+  // Generate todo items HTML
+  const todoItemsHtml = filteredTodos.map(todo => {
+    const isEditing = state.editingId === todo.id;
+    
+    if (isEditing) {
+      return `
+        <li class="editing">
+          <div class="view">
+            <input class="toggle" type="checkbox" ${todo.completed ? 'checked' : ''} data-id="${todo.id}" onchange="handleToggleTodo">
+            <label data-id="${todo.id}" data-text="${todo.text}" ondblclick="handleEditTodo">${todo.text}</label>
+            <button class="destroy" data-id="${todo.id}" onclick="handleDeleteTodo"></button>
+          </div>
+          <input class="edit" value="${state.editingText}" oninput="handleEditingInput" onkeydown="handleEditingKeyDown" onblur="handleEditingBlur">
+        </li>
+      `;
+    } else {
+      return `
+        <li class="${todo.completed ? 'completed' : ''}">
+          <div class="view">
+            <input class="toggle" type="checkbox" ${todo.completed ? 'checked' : ''} data-id="${todo.id}" onchange="handleToggleTodo">
+            <label data-id="${todo.id}" data-text="${todo.text}" ondblclick="handleEditTodo">${todo.text}</label>
+            <button class="destroy" data-id="${todo.id}" onclick="handleDeleteTodo"></button>
+          </div>
+        </li>
+      `;
+    }
+  }).join('');
+
+}
