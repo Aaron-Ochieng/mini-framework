@@ -19,8 +19,8 @@ export function diffOne(l, r) {
   // that should be removed.
   // Any property that is not present in the new node should be removed.
   const remove = [];
-  for (const prop in l.properties) {
-    if (r.properties[prop] === undefined) {
+  for (const prop in l.attr) {
+    if (r.attr[prop] === undefined) {
       remove.push(prop);
     }
   }
@@ -30,9 +30,9 @@ export function diffOne(l, r) {
   // So unless the property's value is the same in the old and
   // new nodes we will take note of it.
   const set = {};
-  for (const prop in r.properties) {
-    if (r.properties[prop] !== l.properties[prop]) {
-      set[prop] = r.properties[prop];
+  for (const prop in r.attr) {
+    if (r.attr[prop] !== l.attr[prop]) {
+      set[prop] = r.attr[prop];
     }
   }
 
