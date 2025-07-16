@@ -47,3 +47,111 @@ function getCompletedTodoCount(todos) {
   return todos.filter(todo => todo.completed).length;
 }
 
+// Update function - handles all state changes
+function update(state, msg, enqueue) {
+  switch (msg.type) {
+    case ADD_TODO:
+      if (state.newTodo.trim() === "") return state;
+      return {
+        ...state,
+        todos: [
+          ...state.todos,
+          {
+            id: generateId(),
+            text: state.newTodo.trim(),
+            completed: false
+          }
+        ],
+        newTodo: ""
+      };
+
+    case TOGGLE_TODO:
+      return {
+        ...state,
+        todos: state.todos.map(todo =>
+          todo.id === msg.id
+            ? { ...todo, completed: !todo.completed }
+            : todo
+        )
+      };
+
+    case DELETE_TODO:
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.id !== msg.id)
+      };
+
+    case EDIT_TODO:
+      return {
+        ...state,
+        editingId: msg.id,
+        editingText: msg.text
+      };
+
+    case UPDATE_TODO:
+      if (state.editingText.trim() === "") {
+        // Delete todo if text is empty
+        return {
+          ...state,
+          todos: state.todos.filter(todo => todo.id !== state.editingId),
+          editingId: null,
+          editingText: ""
+        };
+      }
+      return {
+        ...state,
+        todos: state.todos.map(todo =>
+          todo.id === state.editingId
+            ? { ...todo, text: state.editingText.trim() }
+            : todo
+        ),
+        editingId: null,
+        editingText: ""
+      };
+
+    case CANCEL_EDIT:
+      return {
+        ...state,
+        editingId: null,
+        editingText: ""
+      };
+
+    case SET_FILTER:
+      return {
+        ...state,
+        filter: msg.filter
+      };
+
+    case UPDATE_NEW_TODO:
+      return {
+        ...state,
+        newTodo: msg.value
+      };
+
+    case UPDATE_EDITING_TEXT:
+      return {
+        ...state,
+        editingText: msg.value
+      };
+
+    case TOGGLE_ALL:
+      const allCompleted = state.todos.every(todo => todo.completed);
+      return {
+        ...state,
+        todos: state.todos.map(todo => ({
+          ...todo,
+          completed: !allCompleted
+        }))
+      };
+
+    case CLEAR_COMPLETED:
+      return {
+        ...state,
+        todos: state.todos.filter(todo => !todo.completed)
+      };
+
+    default:
+      return state;
+  }
+}
+
