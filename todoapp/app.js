@@ -285,3 +285,25 @@ function view(state) {
   return [domParser(appHtml, handlers)];
 }
 
+// Initialize the application
+const root = document.getElementById("app");
+const { enqueue } = init(root, initialState, update, view);
+
+// Focus the editing input when entering edit mode
+function focusEditInput() {
+  const editInput = document.querySelector('.edit');
+  if (editInput) {
+    editInput.focus();
+    editInput.select();
+  }
+}
+
+// Set up a mutation observer to focus edit inputs when they appear
+const observer = new MutationObserver(() => {
+  focusEditInput();
+});
+
+observer.observe(root, {
+  childList: true,
+  subtree: true
+});
