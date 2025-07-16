@@ -6,7 +6,7 @@ import { apply } from "./Dom.js";
 // update Type: (state, msg, enqueue?) => newState == A pure function that takes the current state and a message, then returns a new state.
 // view Type: (state) => VirtualNode[] A function that takes the current state and returns the virtual DOM tree.
 
-function init(root, initialState, update, view) {
+export default (root, initialState, update, view) => {
   let state = initialState; // client application state
   let nodes = []; // virtual DOM nodes
   let queue = []; // msg queue
