@@ -19,8 +19,11 @@ export function diffOne(l, r) {
   // that should be removed.
   // Any property that is not present in the new node should be removed.
   const remove = [];
-  for (const prop in l.properties) {
-    if (r.properties[prop] === undefined) {
+  const lAttr = l.attr || {};
+  const rAttr = r.attr || {};
+
+  for (const prop in lAttr) {
+    if (rAttr[prop] === undefined) {
       remove.push(prop);
     }
   }
@@ -30,14 +33,14 @@ export function diffOne(l, r) {
   // So unless the property's value is the same in the old and
   // new nodes we will take note of it.
   const set = {};
-  for (const prop in r.properties) {
-    if (r.properties[prop] !== l.properties[prop]) {
-      set[prop] = r.properties[prop];
+  for (const prop in rAttr) {
+    if (rAttr[prop] !== lAttr[prop]) {
+      set[prop] = rAttr[prop];
     }
   }
 
   // Lastly we diff the list of children.
-  const children = diffList(l.children, r.children);
+  const children = diffList(l.children || [], r.children || []);
 
   return { modify: { remove, set, children } };
 }
@@ -47,7 +50,7 @@ export function diffList(ls, rs) {
   return Array.from({ length }).map((_, i) =>
     ls[i] === undefined
       ? { create: rs[i] }
-      : rs[i] == undefined
+      : rs[i] === undefined
         ? { remove: true }
         : diffOne(ls[i], rs[i]),
   );
