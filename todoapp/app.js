@@ -242,4 +242,46 @@ function view(state) {
     }
   }).join('');
 
+  // Main app HTML
+  const appHtml = `
+    <div>
+      <header class="header">
+        <h1>todos</h1>
+        <input class="new-todo" placeholder="What needs to be done?" value="${state.newTodo}" oninput="handleNewTodoInput" onkeydown="handleNewTodoKeyDown" autofocus>
+      </header>
+      
+      ${state.todos.length > 0 ? `
+        <section class="main">
+          <input id="toggle-all" class="toggle-all" type="checkbox" ${allCompleted ? 'checked' : ''} onchange="handleToggleAll">
+          <label for="toggle-all">Mark all as complete</label>
+          <ul class="todo-list">
+            ${todoItemsHtml}
+          </ul>
+        </section>
+        
+        <footer class="footer">
+          <span class="todo-count">
+            <strong>${activeTodoCount}</strong> ${activeTodoCount === 1 ? 'item' : 'items'} left
+          </span>
+          <ul class="filters">
+            <li>
+              <a class="${state.filter === 'all' ? 'selected' : ''}" onclick="handleFilterAll">All</a>
+            </li>
+            <li>
+              <a class="${state.filter === 'active' ? 'selected' : ''}" onclick="handleFilterActive">Active</a>
+            </li>
+            <li>
+              <a class="${state.filter === 'completed' ? 'selected' : ''}" onclick="handleFilterCompleted">Completed</a>
+            </li>
+          </ul>
+          ${completedTodoCount > 0 ? `
+            <button class="clear-completed" onclick="handleClearCompleted">Clear completed</button>
+          ` : ''}
+        </footer>
+      ` : ''}
+    </div>
+  `;
+
+  return [domParser(appHtml, handlers)];
 }
+
