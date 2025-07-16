@@ -155,3 +155,55 @@ function update(state, msg, enqueue) {
   }
 }
 
+// Event handlers
+const handlers = {
+  handleNewTodoInput: (event) => ({
+    type: UPDATE_NEW_TODO,
+    value: event.target.value
+  }),
+
+  handleNewTodoKeyDown: (event) => {
+    if (event.key === "Enter") {
+      return { type: ADD_TODO };
+    }
+  },
+
+  handleToggleTodo: (event) => ({
+    type: TOGGLE_TODO,
+    id: parseFloat(event.target.dataset.id)
+  }),
+
+  handleDeleteTodo: (event) => ({
+    type: DELETE_TODO,
+    id: parseFloat(event.target.dataset.id)
+  }),
+
+  handleEditTodo: (event) => ({
+    type: EDIT_TODO,
+    id: parseFloat(event.target.dataset.id),
+    text: event.target.dataset.text
+  }),
+
+  handleEditingInput: (event) => ({
+    type: UPDATE_EDITING_TEXT,
+    value: event.target.value
+  }),
+
+  handleEditingKeyDown: (event) => {
+    if (event.key === "Enter") {
+      return { type: UPDATE_TODO };
+    } else if (event.key === "Escape") {
+      return { type: CANCEL_EDIT };
+    }
+  },
+
+  handleEditingBlur: () => ({ type: UPDATE_TODO }),
+
+  handleFilterAll: () => ({ type: SET_FILTER, filter: "all" }),
+  handleFilterActive: () => ({ type: SET_FILTER, filter: "active" }),
+  handleFilterCompleted: () => ({ type: SET_FILTER, filter: "completed" }),
+
+  handleToggleAll: () => ({ type: TOGGLE_ALL }),
+  handleClearCompleted: () => ({ type: CLEAR_COMPLETED })
+};
+
