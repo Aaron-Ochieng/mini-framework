@@ -5,16 +5,6 @@ class FileRouter {
     this.moduleCache = new Map();
   }
 
-  // Convert file path to route path
-  pathToRoute(filePath) {
-    return filePath
-      .replace(/^\.\/pages/, '')
-      .replace(/\.js$/, '')
-      .replace(/\/index$/, '')
-      .replace(/\[([^\]]+)\]/g, ':$1') // [id] -> :id for params
-      || '/';
-  }
-
   // Convert route path to file path
   routeToPath(route) {
     const normalized = route === '/' ? '/index' : route;
@@ -66,13 +56,10 @@ class FileRouter {
 
   // Get available routes (for development/debugging)
   async discoverRoutes() {
-    // This would need to be implemented based on build system
-    // For now, return common patterns
     return [
       '/',
       '/about',
-      '/contact',
-      '/users/:id'
+      '/you'
     ];
   }
 }
