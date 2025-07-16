@@ -1,6 +1,6 @@
-# MiniMvc Framework
+# Mini-Framework
 
-A lightweight, functional frontend framework inspired by Elm architecture. MiniMvc provides a simple yet powerful way to build interactive web applications using unidirectional data flow, virtual DOM, and pure functions.
+A lightweight, functional frontend framework built using Virtual DOM. Mini-FrameWork provides a simple yet powerful way to build interactive web applications using unidirectional data flow, virtual DOM, and pure functions.
 
 ## Table of Contents
 
@@ -43,84 +43,21 @@ MiniMvc is a minimal framework (~300 lines) that implements:
 
 ## Getting Started
 
-### Basic Application Structure
+### Installation
 
-```javascript
-import { init } from "./MiniMvc/init.js";
-import domParser from "./MiniMvc/domParser.js";
+Build  from the source and intsall dependencies:
 
-// 1. Define your initial state
-const initialState = {
-  count: 0,
-  message: "Hello World"
-};
+1. **Clone the repository:**
 
-// 2. Define message types
-const INCREMENT = "INCREMENT";
-const DECREMENT = "DECREMENT";
-const SET_MESSAGE = "SET_MESSAGE";
+    ```sh
+    ❯ git clone ../
+    ```
 
-// 3. Create update function
-function update(state, msg) {
-  switch (msg.type) {
-    case INCREMENT:
-      return { ...state, count: state.count + 1 };
-    
-    case DECREMENT:
-      return { ...state, count: state.count - 1 };
-    
-    case SET_MESSAGE:
-      return { ...state, message: msg.value };
-    
-    default:
-      return state;
-  }
-}
+2. **Navigate to the project directory:**
 
-// 4. Define event handlers
-const handlers = {
-  handleIncrement: () => ({ type: INCREMENT }),
-  handleDecrement: () => ({ type: DECREMENT }),
-  handleInput: (event) => ({ 
-    type: SET_MESSAGE, 
-    value: event.target.value 
-  })
-};
-
-// 5. Create view function
-function view(state) {
-  const html = `
-    <div>
-      <h1>${state.message}</h1>
-      <p>Count: ${state.count}</p>
-      <button onclick="handleIncrement">+</button>
-      <button onclick="handleDecrement">-</button>
-      <input value="${state.message}" oninput="handleInput" />
-    </div>
-  `;
-  
-  return [domParser(html, handlers)];
-}
-
-// 6. Initialize the app
-const root = document.getElementById("app");
-init(root, initialState, update, view);
-```
-
-### HTML Structure
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <title>My MiniMvc App</title>
-</head>
-<body>
-  <div id="app"></div>
-  <script type="module" src="app.js"></script>
-</body>
-</html>
-```
+    ```sh
+    ❯ cd 
+    ```
 
 ## API Reference
 
@@ -666,3 +603,11 @@ Updated UI
 ```
 
 This documentation should help you build applications with the MiniMvc framework. The framework is designed to be simple yet powerful, encouraging functional programming patterns and predictable state management.
+
+- [MIT LICENCE](./LICENSE)
+
+### Authors
+- [aaochieng](https://learn.zone01kisumu.ke/git/aaochieng)
+- [jmuchiri](https://learn.zone01kisumu.ke/git/jmuchiri)
+- [josotieno](https://learn.zone01kisumu.ke/git/josotieno)
+- [jkuya](https://learn.zone01kisumu.ke/git/jkuya)
