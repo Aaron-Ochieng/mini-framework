@@ -1,7 +1,7 @@
-export default (tag, { attrs = {}, children = [] } = {}) => {
+export default (tag, { attr = {}, children = [] } = {}) => {
   return {
     tag,
-    properties: attrs,
+    attr,
     children,
   };
 };
