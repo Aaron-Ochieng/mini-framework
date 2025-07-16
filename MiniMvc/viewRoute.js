@@ -3,14 +3,13 @@ import FileRouter from "./fileRouter.js";
 const router = new FileRouter('./pages');
 
 export default async (state) => {
+  console.log('viewRoute called with state:', state);
   const currentPath = state.path || '/';
   
   try {
-    // Try exact match first
     let component = await router.loadPage(currentPath);
     let params = {};
 
-    // If no exact match, try pattern matching for dynamic routes
     if (!component) {
       const routes = await router.discoverRoutes();
       for (const route of routes) {
@@ -24,12 +23,14 @@ export default async (state) => {
     }
 
     if (component) {
-      // Pass both state and route parameters to component
       const enhancedState = { ...state, params };
-      return component(enhancedState);
+      console.log('Component found, calling with state:', enhancedState);
+      const result = component(enhancedState);
+      console.log('Component returned:', result);
+      return result;
     }
 
-    // 404 fallback
+    console.log('No component found, returning 404');
     return { 
       tag: "div", 
       attr: { class: "error-404" },
@@ -51,6 +52,10 @@ export default async (state) => {
     };
   } catch (error) {
     console.error('Routing error:', error);
-    return { text: "Error loading page" };
+    return { 
+      tag: "div",
+      attr: { class: "error" },
+      children: [{ text: "Error loading page: " + error.message }]
+    };
   }
 };
