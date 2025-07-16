@@ -9,23 +9,19 @@ export function apply(el, enqueue, childrenDiff) {
       case "remove":
         children[i].remove();
         break;
-
       case "modify":
         modify(children[i], enqueue, diff.modify);
         break;
-
       case "create": {
         const child = create(enqueue, diff.create);
         el.appendChild(child);
         break;
       }
-
       case "replace": {
         const child = create(enqueue, diff.replace);
         children[i].replaceWith(child);
         break;
       }
-
       case "noop":
         break;
     }
