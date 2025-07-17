@@ -3,7 +3,6 @@ import FileRouter from "./fileRouter.js";
 const router = new FileRouter('./pages');
 
 export default async (state) => {
-  console.log('viewRoute called with state:', state);
   const currentPath = state.path || '/';
   
   try {
@@ -24,13 +23,10 @@ export default async (state) => {
 
     if (component) {
       const enhancedState = { ...state, params };
-      console.log('Component found, calling with state:', enhancedState);
       const result = component(enhancedState);
-      console.log('Component returned:', result);
       return result;
     }
 
-    console.log('No component found, returning 404');
     return { 
       tag: "div", 
       attr: { class: "error-404" },
