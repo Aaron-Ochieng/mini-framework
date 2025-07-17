@@ -53,15 +53,6 @@ class FileRouter {
 
     return params;
   }
-
-  // Get available routes (for development/debugging)
-  async discoverRoutes() {
-    return [
-      '/',
-      '/about',
-      '/you'
-    ];
-  }
 }
 
 export default FileRouter;
