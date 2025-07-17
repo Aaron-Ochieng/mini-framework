@@ -222,7 +222,7 @@ function view(state) {
       return `
         <li class="editing">
           <div class="view">
-            <input class="toggle" type="checkbox" ${todo.completed ? 'checked' : ''} data-id="${todo.id}" onchange="handleToggleTodo">
+            <input class="toggle" type="checkbox" ${todo.completed ? 'checked="true"' : ''} data-id="${todo.id}" onchange="handleToggleTodo">
             <label data-id="${todo.id}" data-text="${todo.text}" ondblclick="handleEditTodo">${todo.text}</label>
             <button class="destroy" data-id="${todo.id}" onclick="handleDeleteTodo"></button>
           </div>
@@ -233,7 +233,7 @@ function view(state) {
       return `
         <li class="${todo.completed ? 'completed' : ''}">
           <div class="view">
-            <input class="toggle" type="checkbox" ${todo.completed ? 'checked' : ''} data-id="${todo.id}" onchange="handleToggleTodo">
+            <input class="toggle" type="checkbox" ${todo.completed ? 'checked="true"' : ''} data-id="${todo.id}" onchange="handleToggleTodo">
             <label data-id="${todo.id}" data-text="${todo.text}" ondblclick="handleEditTodo">${todo.text}</label>
             <button class="destroy" data-id="${todo.id}" onclick="handleDeleteTodo"></button>
           </div>
@@ -252,7 +252,7 @@ function view(state) {
       
       ${state.todos.length > 0 ? `
         <section class="main">
-          <input id="toggle-all" class="toggle-all" type="checkbox" ${allCompleted ? 'checked' : ''} onchange="handleToggleAll">
+          <input id="toggle-all" class="toggle-all" type="checkbox" ${allCompleted ? 'checked="true"' : ''} onchange="handleToggleAll">
           <label for="toggle-all">Mark all as complete</label>
           <ul class="todo-list">
             ${todoItemsHtml}
