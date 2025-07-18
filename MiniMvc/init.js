@@ -45,3 +45,5 @@ function init(root, initialState, update, view) {
 
   return { enqueue };
 }
+
+export { init };
