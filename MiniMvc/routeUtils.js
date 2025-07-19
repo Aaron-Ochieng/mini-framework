@@ -1,6 +1,6 @@
 // Utility functions for enhanced routing capabilities
 
-export function createRouteLink(path, text, state) {
+export function createRouteLink(path, text, enqueue) {
   return {
     tag: "a",
     attr: {
@@ -8,7 +8,7 @@ export function createRouteLink(path, text, state) {
       onclick: (e) => {
         e.preventDefault();
         window.history.pushState({}, "", path);
-        state.enqueue({ type: "ROUTE_CHANGE", path });
+        enqueue({ type: "ROUTE_CHANGE", path });
       }
     },
     children: [{ text }]
