@@ -12,7 +12,9 @@ export default (root, initialState, update, view) => {
 
   async function draw() {
     try {
-      let newNodes = await view(state);
+      // Pass enqueue function to state for components to use
+      const stateWithEnqueue = { ...state, enqueue };
+      let newNodes = await view(stateWithEnqueue);
       apply(root, enqueue, diffList(nodes, newNodes));
       nodes = newNodes;
     } catch (error) {
