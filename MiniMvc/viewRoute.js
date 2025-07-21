@@ -1,6 +1,6 @@
 import FileRouter from "./fileRouter.js";
 
-const router = new FileRouter('./pages');
+const router = new FileRouter('../pages');
 
 export default async (state) => {
   // Get current path from state or window location
