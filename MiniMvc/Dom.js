@@ -9,23 +9,19 @@ export function apply(el, enqueue, childrenDiff) {
       case "remove":
         children[i].remove();
         break;
-
       case "modify":
         modify(children[i], enqueue, diff.modify);
         break;
-
       case "create": {
         const child = create(enqueue, diff.create);
         el.appendChild(child);
         break;
       }
-
       case "replace": {
         const child = create(enqueue, diff.replace);
         children[i].replaceWith(child);
         break;
       }
-
       case "noop":
         break;
     }
@@ -33,7 +29,6 @@ export function apply(el, enqueue, childrenDiff) {
 }
 
 function modify(el, enqueue, diff) {
-  // Remove props
   for (const prop of diff.remove) {
     const event = eventName(prop);
     if (event === null) {
@@ -44,7 +39,6 @@ function modify(el, enqueue, diff) {
     }
   }
 
-  // Set props
   for (const prop in diff.set) {
     const value = diff.set[prop];
     const event = eventName(prop);
@@ -53,32 +47,26 @@ function modify(el, enqueue, diff) {
       : setProperty(prop, value, el);
   }
 
-  // Deal with the children
   apply(el, enqueue, diff.children);
 }
 
 export function create(enqueue, vnode) {
-  // Create a text node
   if (vnode.text !== undefined) {
     const el = document.createTextNode(vnode.text);
     return el;
   }
 
-  // Create the DOM element with the correct tag and
-  // already add our object of listeners to it.
   const el = document.createElement(vnode.tag);
   el._ui = { listeners: {}, enqueue };
 
   for (const prop in vnode.attr) {
     const event = eventName(prop);
     const value = vnode.attr[prop];
-    // If it's an event set it otherwise set the value as a property.
     event !== null
       ? setListener(el, event, value)
       : setProperty(prop, value, el);
   }
 
-  // Recursively create all the children and append one by one.
   if (vnode.children !== undefined) {
     for (const childVNode of vnode.children) {
       const child = create(enqueue, childVNode);

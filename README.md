@@ -50,15 +50,12 @@ Build  from the source and intsall dependencies:
 1. **Clone the repository:**
 
     ```sh
-    ❯ git clone ../
-    ```
-
+❯ git clone ../
+```
 2. **Navigate to the project directory:**
-
-    ```sh
-    ❯ cd 
-    ```
-
+```sh
+❯ cd
+```javascript
 ## API Reference
 
 ### `init(root, initialState, update, view)`
@@ -88,7 +85,6 @@ Converts HTML string to virtual DOM with event handlers.
 ### Event Handlers
 
 Event handlers are functions that return message objects:
-
 ```javascript
 const handlers = {
   // Simple message
@@ -109,11 +105,9 @@ const handlers = {
   }
 };
 ```
-
 ### HTML Template Syntax
 
 Use standard HTML with event attributes:
-
 ```html
 <!-- Event handlers -->
 <button onclick="handleClick">Click me</button>
@@ -135,11 +129,9 @@ ${state.showMessage ? `<div>Hello!</div>` : ''}
   `).join('')}
 </ul>
 ```
-
 ## Examples
 
 ### Counter App
-
 ```javascript
 const initialState = { count: 0 };
 
@@ -177,9 +169,7 @@ function view(state) {
   `, handlers)];
 }
 ```
-
 ### Form Handling
-
 ```javascript
 const initialState = {
   name: "",
@@ -259,16 +249,14 @@ function view(state) {
           oninput="updateEmail"
         />
         ${state.errors.email ? `<span class="error">${state.errors.email}</span>` : ''}
-      </div>
+      </div>gi
       
       <button type="submit">Submit</button>
     </form>
   `, handlers)];
 }
 ```
-
 ### List Management
-
 ```javascript
 const initialState = {
   items: [],
@@ -392,14 +380,13 @@ function view(state) {
   `, handlers)];
 }
 ```
-
 ## Best Practices
 
 ### State Management
 
 1. **Keep state flat and normalized**
-   ```javascript
-   // Good
+```javascript
+// Good
    const state = {
      users: { 1: { id: 1, name: "John" } },
      selectedUserId: 1
@@ -414,21 +401,19 @@ function view(state) {
        }
      }
    };
-   ```
-
+```
 2. **Use immutable updates**
-   ```javascript
-   // Good
+```javascript
+// Good
    return { ...state, count: state.count + 1 };
    
    // Bad - mutates state
    state.count++;
    return state;
-   ```
-
+```
 3. **Validate message types**
-   ```javascript
-   function update(state, msg) {
+```javascript
+function update(state, msg) {
      switch (msg.type) {
        case "KNOWN_MESSAGE":
          return handleKnownMessage(state, msg);
@@ -437,13 +422,12 @@ function view(state) {
          return state;
      }
    }
-   ```
-
+```
 ### View Functions
 
 1. **Keep views pure**
-   ```javascript
-   // Good - pure function
+```javascript
+// Good - pure function
    function view(state) {
      return [domParser(`<div>${state.message}</div>`, handlers)];
    }
@@ -454,11 +438,10 @@ function view(state) {
      document.title = state.title; // DOM manipulation
      return [domParser(`<div>${state.message}</div>`, handlers)];
    }
-   ```
-
+```
 2. **Extract complex rendering logic**
-   ```javascript
-   function renderUserList(users) {
+```javascript
+function renderUserList(users) {
      return users.map(user => `
        <li data-id="${user.id}" onclick="selectUser">
          ${user.name}
@@ -473,11 +456,10 @@ function view(state) {
        </div>
      `, handlers)];
    }
-   ```
-
+```
 3. **Use helper functions for conditional rendering**
-   ```javascript
-   function renderIf(condition, html) {
+```javascript
+function renderIf(condition, html) {
      return condition ? html : '';
    }
    
@@ -489,13 +471,12 @@ function view(state) {
        </div>
      `, handlers)];
    }
-   ```
-
+```
 ### Event Handlers
 
 1. **Keep handlers simple**
-   ```javascript
-   // Good
+```javascript
+// Good
    const handlers = {
      increment: () => ({ type: "INCREMENT" }),
      updateName: (e) => ({ type: "UPDATE_NAME", value: e.target.value })
@@ -513,11 +494,10 @@ function view(state) {
        return { type: "REGULAR_INPUT", value };
      }
    };
-   ```
-
+```
 2. **Use data attributes for dynamic data**
-   ```javascript
-   // In template
+```javascript
+// In template
    `<button data-id="${item.id}" onclick="deleteItem">Delete</button>`
    
    // In handler
@@ -527,13 +507,12 @@ function view(state) {
        id: parseInt(e.target.dataset.id) 
      })
    };
-   ```
-
+```
 ### Performance Tips
 
 1. **Minimize virtual DOM node creation**
-   ```javascript
-   // Good - reuse static parts
+```javascript
+// Good - reuse static parts
    const staticHeader = domParser(`<header><h1>My App</h1></header>`, {});
    
    function view(state) {
@@ -542,14 +521,12 @@ function view(state) {
        domParser(`<main>${state.content}</main>`, handlers)
      ];
    }
-   ```
-
+```
 2. **Use keys for list items** (when implementing custom list diffing)
-   ```javascript
-   // Add unique identifiers to help with diffing
+```javascript
+// Add unique identifiers to help with diffing
    `<li data-key="${item.id}">${item.name}</li>`
-   ```
-
+```
 ## Architecture
 
 ### Framework Components
@@ -563,7 +540,6 @@ function view(state) {
 7. **properties.js**: DOM property management
 
 ### Data Flow
-
 ```
 User Interaction
        ↓
@@ -581,9 +557,7 @@ DOM Patching (apply patches to real DOM)
        ↓
 Updated UI
 ```
-
 ### Virtual DOM Structure
-
 ```javascript
 {
   tag: "div",
@@ -601,7 +575,6 @@ Updated UI
   ]
 }
 ```
-
 This documentation should help you build applications with the MiniMvc framework. The framework is designed to be simple yet powerful, encouraging functional programming patterns and predictable state management.
 
 - [MIT LICENCE](./LICENSE)

@@ -1,4 +1,4 @@
-import { init } from "../MiniMvc/init.js";
+import init from "../MiniMvc/init.js";
 import domParser from "../MiniMvc/domParser.js";
 
 // Initial state for the TodoMVC app
@@ -48,7 +48,7 @@ function getCompletedTodoCount(todos) {
 }
 
 // Update function - handles all state changes
-function update(state, msg, enqueue) {
+function update(state, msg) {
   switch (msg.type) {
     case ADD_TODO:
       if (state.newTodo.trim() === "") return state;
@@ -291,11 +291,13 @@ const { enqueue } = init(root, initialState, update, view);
 
 // Focus the editing input when entering edit mode
 function focusEditInput() {
-  const editInput = document.querySelector('.edit');
-  if (editInput) {
-    editInput.focus();
-    editInput.select();
-  }
+  setTimeout(() => {
+    const editInput = document.querySelector('.edit');
+    if (editInput) {
+      editInput.focus();
+      editInput.select();
+    }
+  }, 0);
 }
 
 // Set up a mutation observer to focus edit inputs when they appear
